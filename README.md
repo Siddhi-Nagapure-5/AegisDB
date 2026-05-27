@@ -196,5 +196,8 @@ Once the core files are generated:
 
 ## 📜 References & Further Reading
 - *Database System Concepts (7th Edition)* — Silberschatz, Korth, Sudarshan (Chapter 19: Recovery System)
-- *ARIES: A Transaction Recovery Method Supporting Fine-Granularity Locking and Partial Rollbacks Using Write-Ahead Logging* — C. Mohan, et al. (ACM TODS, 1992)
+- *ARIES: A Transaction Recovery Method Supporting Fine-Granularity Locking and Partial Rollbacks Using Write-Ahead Logging* — C. Mohan, Don Haderle, Bruce Lindsay, Hamid Pirahesh, and Peter Schwarz (ACM TODS, 1992)
+- *Principles of Transaction-Oriented Database Recovery* — Theo Härder and Andreas Reuter (ACM Computing Surveys, 1983) — *The foundational paper defining the Steal/No-Force categorization.*
+- *Concurrency Control and Recovery in Database Systems* — Philip A. Bernstein, Vassos Hadzilacos, and Nathan Goodman (Addison-Wesley, 1987) — *A comprehensive text on transaction and recovery theory.*
+- *ARIES/IM: A Method for High Concurrency Index Management and Recovery with Fine-Granularity Locking* — C. Mohan and Frank Levine (SIGMOD, 1992) — *Extends ARIES to B+-tree structures.*
 - *Database Management Systems (3rd Edition)* — Raghu Ramakrishnan and Johannes Gehrke (Chapter 18: Crash Recovery)

@@ -128,3 +128,18 @@ Regardless of the language chosen, the components will interact as follows:
 1. **Language Agreement:** Confirm whether to proceed with **Python** (excellent for readable implementation of components), **Go**, or **Rust**.
 2. **Setup Workspace:** Create the file structures based on the chosen language.
 3. **Phase 1 Implementation:** Begin with the **Storage Manager** and **Buffer Pool Manager** logic, mapping out page frames and page storage layouts.
+
+---
+
+## 📜 References & Further Reading
+
+For a deeper dive into the theory and mechanics of database recovery and concurrency, consult the following key publications:
+
+1. **Härder, T., & Reuter, A. (1983).** *Principles of transaction-oriented database recovery.* ACM Computing Surveys (CSUR), 15(4), 287-317.
+   * *Significance:* This seminal paper defined the database recovery taxonomies (including **Steal/No-Force**) that AegisDB implements.
+2. **Mohan, C., Haderle, D., Lindsay, B., Pirahesh, H., & Schwarz, P. (1992).** *ARIES: A transaction recovery method supporting fine-granularity locking and partial rollbacks using write-ahead logging.* ACM Transactions on Database Systems (TODS), 17(1), 94-162.
+   * *Significance:* The original paper describing the ARIES algorithm, detailing the Analysis, Redo, and Undo passes along with CLR logs.
+3. **Bernstein, P. A., Hadzilacos, V., & Goodman, N. (1987).** *Concurrency Control and Recovery in Database Systems.* Addison-Wesley.
+   * *Significance:* A foundational textbook that models strict serialization theory and transaction management.
+4. **Mohan, C., & Levine, F. (1992).** *ARIES/IM: A method for high concurrency index management and recovery with fine-granularity locking.* Proceedings of the 1992 ACM SIGMOD international conference on Management of data, 244-253.
+   * *Significance:* An extension of ARIES to handle high-concurrency operations on B+-tree index structures.
