@@ -52,7 +52,7 @@ radialChart
 Here are the detailed package/module recommendations for implementing AegisDB under each stack.
 
 ### Option A: Python Ecosystem (Recommended for Education)
-If we choose Python (as referenced in the [README.md](file:///c:/Users/Asus/Desktop/New%20folder/Projects/AegisDB/README.md)), here is the recommended tech stack:
+If we choose Python (as referenced in the [README.md](file:///c:/Users/Asus/Desktop/New folder/Projects/AegisDB/README.md)), here is the recommended tech stack:
 
 *   **Runtime:** Python 3.10+
 *   **Byte Manipulation:** `struct` (standard library) for packing/unpacking pages and log entries.
@@ -81,6 +81,31 @@ If we choose Rust for production-like performance and pointer control:
 *   **File I/O:** `std::fs::File`, utilizing `std::os::unix::fs::OpenOptionsExt` (on Unix) or specific Windows APIs to bypass OS buffering.
 *   **CLI & Visualization:** `ratatui` (formerly `tui-rs`) for an immersive dashboard showing the live state of buffer frames and transactions.
 *   **Crash Simulator:** Rust `std::process::Command` to manage database execution and calling `.kill()`.
+
+---
+
+## 📂 Data Structures & Binary Formats
+
+### Log Record Layout
+Each entry in `aegis.log` is serialized in the following binary or structured format:
+
+| Field | Type | Description |
+| :--- | :--- | :--- |
+| `LSN` | 64-bit Int | Unique, sequential ID of this log record. |
+| `PrevLSN` | 64-bit Int | LSN of the previous log record written by this transaction (backlink). |
+| `TxID` | 32-bit Int | Unique identifier of the transaction. |
+| `Type` | Enum | `BEGIN`, `COMMIT`, `ABORT`, `UPDATE`, `CLR`, `CHECKPOINT`. |
+| `PageID` | 32-bit Int | The database page target (for `UPDATE` / `CLR`). |
+| `Offset` | 16-bit Int | Offset within the page where modification occurred. |
+| `BeforeImage`| Bytes | Old data bytes (used for UNDO). |
+| `AfterImage` | Bytes | New data bytes (used for REDO). |
+| `UndoNextLSN`| 64-bit Int | Only for CLR: Points to the next LSN to be undone for the transaction. |
+
+### Page Header Layout
+Database pages (4KB) reserve a small metadata section at the beginning:
+- `PageLSN`: The LSN of the log record corresponding to the most recent update to this page.
+- `PageID`: Unique identifier of the page.
+- `FreeSpacePointer`: Offset pointing to the start of free space on the page.
 
 ---
 
