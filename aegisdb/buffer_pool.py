@@ -1,6 +1,7 @@
 from typing import Dict, Optional, List
 from aegisdb.page import Page
 from aegisdb.storage_manager import StorageManager
+from aegisdb.log_manager import LogManager
 
 class BufferPoolManager:
     """
@@ -8,9 +9,10 @@ class BufferPoolManager:
     Implements a simple LRU replacement policy.
     """
 
-    def __init__(self, pool_size: int, storage_manager: StorageManager):
+    def __init__(self, pool_size: int, storage_manager: StorageManager, log_manager: LogManager):
         self.pool_size = pool_size
         self.storage_manager = storage_manager
+        self.log_manager = log_manager
         
         # page_id -> Page mapping
         self.pages: Dict[int, Page] = {}
@@ -61,6 +63,9 @@ class BufferPoolManager:
         if page_id in self.pages:
             page = self.pages[page_id]
             if page.is_dirty:
+                # WAL Constraint: Flush log records before writing the page to disk
+                self.log_manager.enforce_wal(page.page_lsn)
+                
                 self.storage_manager.write_page(page)
                 page.is_dirty = False
 
