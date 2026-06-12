@@ -93,10 +93,10 @@ sequenceDiagram
 
 ## 📅 Roadmap & Progress
 
-- [ ] **Phase 1: Storage Layer & Page Buffer** (Page serialization, Disk manager, Buffer Pool Manager)
-- [ ] **Phase 2: Write-Ahead Logging** (Binary log representation, LogManager, WAL constraint)
-- [ ] **Phase 3: ARIES Recovery Engine** (Fuzzy checkpointing, log parser, Analysis/Redo/Undo passes, CLRs)
-- [ ] **Phase 4: Crash Simulator & Verification** (Interactive CLI, process-kill simulator, transactional validation)
+- [x] **Phase 1: Storage Layer & Page Buffer** (Page binary serialization, Direct I/O via `os.fsync`, LRU Buffer Pool Manager)
+- [x] **Phase 2: Write-Ahead Logging** (36-byte binary log headers, LogManager, Steal/No-Force WAL constraint)
+- [x] **Phase 3: ARIES Recovery Engine** (Log indexer, Analysis/Redo/Undo passes, CLRs)
+- [x] **Phase 4: Crash Simulator & Verification** (Python `multiprocessing` process-kill simulator, ARIES state verification script)
 
 ---
 
@@ -104,12 +104,12 @@ sequenceDiagram
 
 Detailed specifications, including binary log layouts, page formats, and language ecosystem evaluations (Python, Go, Rust), are documented in [docs.md](file:///c:/Users/Asus/Desktop/New folder/Projects/AegisDB/docs.md).
 
-### Basic CLI Commands (Planned)
+### Basic CLI Commands (Implemented)
 
 ```bash
-# Start the interactive transaction & crash simulator
-python -m aegisdb.simulator --transactions 50 --crash-interval 1.5s
+# Start the transaction workload & crash simulator
+python -m aegisdb.simulator --transactions 500 --crash-interval 1.5
 
-# Verify post-crash recovery consistency
+# Verify post-crash recovery consistency using ARIES
 python -m aegisdb.verify --db aegis.db --log aegis.log
 ```
